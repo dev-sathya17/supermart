@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Home</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'dashboard.css' %}">
+    <script
+    src="https://kit.fontawesome.com/e147bc9c3a.js"
+    crossorigin="anonymous"
+  ></script>
+  </head>
+  <body>
+    <nav class="navDiv">
+        <ul class="navbar-nav">
+          {% comment %}
+          <li class="nav-item">
+            <img
+              src="img_avatar1.png"
+              alt="Logo"
+              style="width: 40px"
+              class="rounded-pill"
+            />
+          </li>
+          {% endcomment %}
+          <li><a href="#" id="profile"><i class="fa-solid fa-circle-user"></i> Profile</a></li>
+          <li>
+            <a class="nav-link" href="/"
+              ><button id="logoutBtn">Logout <i class="fa-solid fa-right-from-bracket"></i></button></a
+            >
+          </li>
+        </ul>
+      </nav>
+      <div class="dashboard">
+        <div class="row1">
+          <div class="card1 card">
+            <div class="title">
+              <h5>Customers</h5>
+            </div>
+            <div class="image"><i class="fa-solid fa-user-group"></i></div>
+            <div class="link"><a href="/customer">Customers</a></div>
+          </div>
+          <div class="card2 card">
+            <div class="title">
+              <h5>Vendors</h5>
+            </div>
+            <div class="image"><i class="fa-solid fa-user-tie"></i></div>
+            <div class="link"><a href="/vendor">Vendors</a></div>
+          </div>
+          <div class="card3 card">
+            <div class="title">
+              <h5>Employees</h5>
+            </div>
+            <div class="image"><i class="fa-solid fa-users-gear"></i></div>
+            <div class="link"><a href="/employee">Employees</a></div>
+          </div>
+          <div class="card4 card">
+            <div class="title">
+              <h5>Products</h5>
+            </div>
+            <div class="image"><i class="fa-solid fa-filter"></i></div>
+            <div class="link"><a href="/products">Products</a></div>
+          </div>
+        </div>
+        <div class="row2">
+          <div class="card5 card">
+            <div class="title">
+              <h5>Purchase</h5>
+            </div>
+            <div class="image"><i class="fa-solid fa-cart-shopping"></i></div>
+            <div class="link"><a href="/purchase">Purchase</a></div>
+          </div>
+          <div class="card6 card">
+            <div class="title">
+              <h5>Sales</h5>
+            </div>
+            <div class="image"><i class="fa-solid fa-truck-fast"></i></div>
+            <div class="link"><a href="/sales">Sales</a></div>
+          </div>
+          <div class="card7 card">
+            <div class="title">
+              <h5>Product Restocking</h5>
+            </div>
+            <div class="image"><i class="fa-solid fa-cart-plus"></i></div>
+            <div class="link"><a href="/productReStock">Re-stock</a></div>
+          </div>
+          <div class="card8 card">
+            <div class="title">
+              <h5>Product Reports</h5>
+            </div>
+            <div class="image"><i class="fa-solid fa-chart-simple"></i></div>
+            <div class="link"><a href="productReports">View</a></div>
+          </div>
+        </div>
+        <div class="row3">
+          <div class="card9 card">
+            <div class="title">
+              <h5>Purchase Reports</h5>
+            </div>
+            <div class="image"><i class="fa-solid fa-magnifying-glass-chart"></i></i></div>
+            <div class="link"><a href="purchaseReports">Analyze</a></div>
+          </div>
+          <div class="card10 card">
+            <div class="title">
+              <h5>Sales Reports</h5>
+            </div>
+            <div class="image"><i class="fa-solid fa-chart-line"></i></div>
+            <div class="link"><a href="/salesReports">Analyze</a></div>
+          </div>
+        </div>
+      </div>
+
+  </body>
+</html>

@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <title>Products</title>
+    <style>
+      .myContent {
+        margin: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+      }
+      .inputTag {
+        border: 2px solid rgb(13, 110, 253);
+        width: 255px;
+        height: 40px;
+        border-radius: 5px;
+        margin-right: 10px;
+      }
+      .inputTag input {
+        padding: 0;
+        padding-bottom: 2px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding-left: 10px;
+        background: transparent;
+        height: 39px;
+        width: 250px;
+        border: none;
+        outline: none;
+        font-size: 17px;
+      }
+      .addBtn {
+        margin: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      h2 {
+        text-align: center;
+      }
+      .active {
+        font-weight: bold;
+      }
+      #logoutBtn {
+        background: none;
+        outline: none;
+        border: none;
+      }
+      #logoutBtn:hover {
+        color: red;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container-fluid">
+      <nav class="navbar navbar-expand-sm bg-light justify-content-center">
+        <ul class="navbar-nav">
+          {% comment %}
+          <li class="nav-item">
+            <img
+              src="img_avatar1.png"
+              alt="Logo"
+              style="width: 40px"
+              class="rounded-pill"
+            />
+          </li>
+          {% endcomment %}
+          <li class="nav-item">
+            <a class="nav-link" href="/">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/customer">Customer</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/employee">Employee</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/vendor">Vendor</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" href="/products">Products</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/purchase">Purchase</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/sales">Sales</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/purchaseReports">Purchase Reports</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/salesReports">Sales Reports</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/productReports">Product Reports</a>
+          </li>
+          <li>
+            <a class="nav-link" href="/"
+              ><button id="logoutBtn">Logout</button></a
+            >
+          </li>
+        </ul>
+      </nav>
+
+      <div class="addBtn">
+        <button
+          type="button"
+          class="btn btn-primary"
+          data-bs-toggle="modal"
+          data-bs-target="#myModal"
+        >
+          Add Product
+        </button>
+      </div>
+
+      <!-- The Modal -->
+      <div class="modal" id="myModal">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+              ></button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+              <label for="p_name">PRODUCT NAME:</label>
+              <input type="text" name="p_name" id="p_name" />
+              <hr />
+              <label for="cp">COST PRICE:</label>
+              <input type="text" class="num" name="cp" id="cp" />
+              <hr />
+              <label for="sp">SELLING PRICE:</label>
+              <input type="text" class="num" name="sp" id="sp" />
+              <hr />
+              <label for="mq">Minimum Quantity:</label>
+              <input type="text" class="num" name="mq" id="mq" />
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+              <button
+                type="submit"
+                id="addBtn"
+                class="btn btn-primary addProductBtn"
+              >
+                SUBMIT
+              </button>
+              <button
+                type="button"
+                class="btn btn-danger"
+                data-bs-dismiss="modal"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <h2>All Products:</h2>
+      <table class="table">
+        <thead class="table-success">
+          <th>ID</th>
+          <th>PRODUCT NAME</th>
+          <th>QUANTITY</th>
+          <th>COST PRICE</th>
+          <th>SELLING PRICE</th>
+          <th>DELETE</th>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </body>
+  <script
+    src="https://code.jquery.com/jquery-3.7.0.js"
+    integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM="
+    crossorigin="anonymous"
+  ></script>
+  <script>
+
+    var tbody = document.querySelector("tbody");
+    var modal=document.querySelector(".modal")
+    modal.addEventListener("click",function(e){
+      if(e.target.className==="btn btn-primary addProductBtn")
+      {
+        var modalBOdy=document.querySelector(".modal-body")
+        console.log(modalBOdy.children)
+        var p_name=modalBOdy.children[1].value;
+        var cp=modalBOdy.children[4].value;
+        var sp=modalBOdy.children[7].value;
+        var mq=modalBOdy.children[10].value;
+        console.log(mq)
+        $.post({
+          url: "{% url 'products' %}",
+        data: {
+          operation:"ADD",
+          csrfmiddlewaretoken: "{{csrf_token}}",
+          p_name: p_name,
+          cp: cp,
+          sp:sp,
+          mq:mq
+        },
+        success:function(response)
+        {
+          var id = response.id;
+            tr = `<tr>
+              <td>${id}</td>
+              <td>${p_name}</td>
+              <td>0</td>
+              <td>${cp}</td>
+              <td>${sp}</td>
+              <td><button class="btn btn-danger">DELETE</button></td>
+            </tr>`;
+            tbody.innerHTML += tr;
+        }
+        })
+      }
+    })
+
+    tbody.addEventListener("click",function(e){
+      if(e.target.className==="btn btn-danger"){
+        var btn=e.target;
+        var td=btn.parentElement;
+        var delete_id=td.previousElementSibling.previousElementSibling.previousElementSibling.previousElementSibling.previousElementSibling.innerHTML;
+        $.post({
+          url:"{% url 'products' %}",
+          data:{
+            csrfmiddlewaretoken: "{{csrf_token}}",
+            operation:"DELETE",
+            delete_id:delete_id
+          },
+          success:function(response)
+          {
+            if(response.status==="success")
+            {
+              tbody.removeChild(td.parentElement)
+            }
+          }
+        })
+      }
+    })
+
+    $(document).ready(
+    function (){
+      $.get({
+        url: "{% url 'products' %}",
+        success: function(response){
+          var data= {{data|safe}}
+          tr=``;
+          var i=0
+          for(var d=0; d<data.length;d++)
+          {
+              var i=0;
+              tr += `<tr>
+                <td>${data[d][i]}</td>
+                <td>${data[d][i+1]}</td>
+                <td>${data[d][i+2]}</td>
+                <td>${data[d][i+3]}</td>
+                <td>${data[d][i+4]}</td>
+                <td><button class="btn btn-danger">DELETE</button></td>
+              </tr>`;
+          }
+          tbody.innerHTML += tr;
+        }
+      });
+    });
+  </script>
+</html>

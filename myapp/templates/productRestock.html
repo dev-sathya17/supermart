@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+    href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+    rel="stylesheet"
+  />
+  <script src="https://kit.fontawesome.com/e147bc9c3a.js" crossorigin="anonymous"></script>    
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <title>Re Stocking</title>
+    <style>
+        .active {
+            font-weight: bold;
+          }
+          #logoutBtn {
+            background: none;
+            outline: none;
+            border: none;
+          }
+          #logoutBtn:hover {
+            color: red;
+          }
+          h4{
+            text-align:center;
+            font-size:35px;
+            margin:15px;
+          }
+          .header{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom:15px;
+          }
+          .head{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom:15px;
+          }
+          .table{
+            text-align:center;
+          }
+          .head i{
+            color: #0D6EFD
+          }
+          .head .btn{
+            background-color:#D1E7DD
+          }
+          .head .btn:hover{
+            background-color: #009d6b;
+            font-size:17px;
+            color:#ffffff;
+          }
+          #vendorInput{
+            margin-right:8px;
+            border:none;
+            outline:none;
+            border:2px solid #009d6b;
+            border-radius:5px;
+            padding-left:5px;
+          }
+          .header label{
+            font-size:20px;
+            margin-right:5px;
+          }
+          #vendorBtn{
+            margin-bottom:5px;
+          }
+          .newQuantity{
+            border:none;
+            outline:none;
+            border:2px solid #009d6b;
+            border-radius:5px;
+            padding:5px;
+          }
+
+    </style>
+  </head>
+  <body>
+    <div class="container-fluid">
+        <nav class="navbar navbar-expand-sm bg-light justify-content-center">
+            <ul class="navbar-nav">
+              {% comment %}
+              <li class="nav-item">
+                <img
+                  src="img_avatar1.png"
+                  alt="Logo"
+                  style="width: 40px"
+                  class="rounded-pill"
+                />
+              </li>
+              {% endcomment %}
+              <li class="nav-item">
+                <a class="nav-link" href="/">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/customer">Customer</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/employee">Employee</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/vendor">Vendor</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/products">Products</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/purchase">Purchase</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/sales">Sales</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/purchaseReports">Purchase Reports</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/salesReports">Sales Reports</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/productReports">Product Reports</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link  active" href="/productRestock">Re-Stocking</a>
+              </li>
+              <li>
+                <a class="nav-link" href="/"
+                  ><button id="logoutBtn">Logout</button></a
+                >
+              </li>
+            </ul>
+          </nav>
+          <div class="modal" id="myModal">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <!-- Modal Header -->
+                <div class="modal-header">
+                  <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                  ></button>
+                </div>
+      
+                <!-- Modal body -->
+                <div class="modal-body"></div>
+      
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                  <button
+                    type="button"
+                    class="btn btn-danger"
+                    data-bs-dismiss="modal"
+                  >
+                    Close
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="head">
+            <h4>Re Stocking Products<i class="fa-solid fa-cart-plus"></i></h4>
+            <button class="btn" id="buyAllBtn">BUY ALL</button>
+          </div>
+          <div class="header">
+            <div class="vendors">
+                <label for="vendorInput">Choose a Vendor: </label>
+                <input list="vendor" name="vendor" id="vendorInput" />
+                <datalist id="vendor"></datalist>
+                <button type="submit" id="vendorBtn" class="btn btn-primary">
+                    Choose Vendor
+                  </button>
+              </div>
+            
+          </div>
+        <table class="table">
+          <thead class="table-success">
+              <th>ID</th>
+              <th>PRODUCT NAME</th>
+              <th>QUANTITY AVAILABLE</th>
+              <th>COST PRICE</th>
+              <th>BUY QUANTITY</th>
+              <th>PURCHASE NOW</th>
+            </thead>
+            <tbody>
+            </tbody>
+          </thead>
+        </table>
+    </div>
+  </body>
+  <script
+    src="https://code.jquery.com/jquery-3.7.0.js"
+    integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM="
+    crossorigin="anonymous"
+  ></script>
+  <script>
+    var tbody=document.querySelector("tbody");
+    var vendorList=document.querySelector("#vendor");
+    var vendorBtn=document.querySelector("#vendorBtn");
+    var vendorDatas={}
+    var purchaseData={}
+    var products={}
+    var buyAllBtn=document.querySelector("#buyAllBtn");
+
+    buyAllBtn.addEventListener("click",function(){
+
+      let vendorName=document.querySelector("#vendorInput").value;
+        if(vendorName.length===0)
+        {
+            alert("No vendor Selected")
+        }
+        else
+        {
+          let vendorId=vendorDatas[vendorName]
+          let trs=tbody.children
+          for(let tr of trs)
+          {
+            let productID=tr.children[0].innerHTML
+            let quantity=tr.children[4].children[0].value
+            if(parseInt(quantity)>0)
+            {
+              purchaseData[productID]=quantity;
+              products[productID]=tr.children[1].innerHTML
+            }
+          }
+              $.post({
+                  url:"{% url 'purchase' %}",
+                  data:{
+                    operation:"purchase",
+                    csrfmiddlewaretoken:"{{csrf_token}}",
+                    "purchase_data":JSON.stringify(purchaseData),
+                    purchase_id:bill_id
+                  },
+                  success:function(response){
+                    console.log(response)
+                      if(response.status==="success")
+                      {
+                          let total=response.total;
+                          console.log(response.tax)
+                          let tax=parseFloat(response.tax)*100
+                          let grandTotal=response.grand_total
+                          let output=`<div class="table-responsive">
+                            <span style="text-align:center;"><b>Thank You for Shopping! Here is your bill:</b></span>
+                            <table class="table table-bordered">
+                              <thead class="table-info">
+                              `;  
+                              for(let product in products)
+                              {
+                                  output+=`<tr>
+                                    <td width="30%">Product Name</td>
+                                    <td width="70%">${products[product]}</td>
+                                  </tr>
+                                  <tr>
+                                    <td width="30%">Quantity</td>
+                                    <td width="70%">${purchaseData[product]}</td>
+                                  </tr>`
+                                
+                              }
+                              output+=`<tr>
+                                    <td width="30%">Total</td>
+                                    <td width="70%">Rs. ${total}</td>
+                                  </tr>
+                                  <tr>
+                                    <td width="30%">Taxes</td>
+                                    <td width="70%">${tax}%</td>
+                                  </tr>
+                                  <tr>
+                                    <td width="30%">Grand Total</td>
+                                    <td width="70%">Rs. ${grandTotal}</td>
+                                  </tr>`
+                                  output+=`</table></div>`;
+                          $(".modal-body").html(output);
+                      }
+                  }
+              }) 
+              $("#myModal").modal("show"); 
+
+        }
+    })
+
+    $(document).ready(function(){
+        $.get({
+            url: "{% url 'productReStock' %}",
+            success:function(response)
+            {
+                let data={{data|safe}}
+                let productData=data.productData
+                let vendorData=data.vendorData
+                let tr=``;
+                let vendorOptions=``;
+                for(let d of productData)
+                {
+                    tr+=`<tr>
+                        <td>${d[0]}</td>
+                        <td>${d[1]}</td>
+                        <td>${d[2]}</td>
+                        <td>${d[3]}</td>
+                        <td><input type="number" class="newQuantity" style="width:50px;" value="1"></td>
+                        <td><button class="btn btn-primary buyBtn">BUY NOW</button></td>
+                    </tr>`;
+                }
+                for(let vendors of vendorData)
+                {
+                    vendorOptions+=`<option value="${vendors[1]}"></option>`
+                    vendorDatas[vendors[1]]=vendors[0]
+                }
+                tbody.innerHTML+=tr;
+                vendorList.innerHTML+=vendorOptions;
+            }
+        })
+    })
+    {% comment %} tbody.addEventListener("click",function(e){
+        if(e.target.className==="changeQuantity")
+        {
+            var currentQuantity=e.target.parentElement.previousElementSibling.previousElementSibling.innerHTML
+            if(e.target.checked)
+            {
+                e.target.parentElement.previousElementSibling.previousElementSibling.innerHTML=`<input type="number" id="newQuantity" style='width:35px' value="${currentQuantity}">`;
+            }
+            else{
+                var newQuantity=document.querySelector("#newQuantity").value
+                e.target.parentElement.previousElementSibling.previousElementSibling.innerHTML=newQuantity
+            }
+        }
+    }) {% endcomment %}
+    var bill_id;
+    vendorBtn.addEventListener("click",function(){
+        let vendorName=document.querySelector("#vendorInput").value;
+        if(vendorName.length===0)
+        {
+            alert("No vendor Selected")
+        }
+        else{
+            let vendorId=vendorDatas[vendorName]
+            $.post({
+                url:"{% url 'purchase' %}",
+                data:{
+                  operation:"ChooseVendor",
+                  vendorID:vendorId,
+                  csrfmiddlewaretoken:"{{csrf_token}}"
+                },
+                success:function(response){
+                  if(response.status==="success")
+                  {
+                    bill_id=response.id
+                    alert("Vendor Chosen Successfully!")
+                  }
+                }
+              })
+        }
+    })
+    tbody.addEventListener("click",function(e){
+        if(e.target.className==="btn btn-primary buyBtn")
+        {
+            let vendorName=document.querySelector("#vendorInput").value;
+            if(vendorName.length===0)
+            {
+                alert("No vendor Selected")
+            }
+            else{
+                let vendorId=vendorDatas[vendorName]
+                let productId=e.target.parentElement.previousElementSibling.previousElementSibling.previousElementSibling.previousElementSibling.previousElementSibling.innerHTML
+                let quantity=e.target.parentElement.previousElementSibling.children[0].value
+                purchaseData[productId]=quantity;                
+                let productName=e.target.parentElement.previousElementSibling.previousElementSibling.previousElementSibling.previousElementSibling.innerHTML
+                $.post({
+                    url:"{% url 'purchase' %}",
+                    data:{
+                      operation:"purchase",
+                      csrfmiddlewaretoken:"{{csrf_token}}",
+                      "purchase_data":JSON.stringify(purchaseData),
+                      purchase_id:bill_id
+                    },
+                    success:function(response){
+                      console.log(response)
+                        if(response.status==="success")
+                        {
+                            let total=response.total;
+                            console.log(response.tax)
+                            let tax=parseFloat(response.tax)*100
+                            console.log(tax)
+                            let grandTotal=response.grand_total
+                            let output=`<div class="table-responsive">
+                              <table class="table table-bordered">
+                                <thead class="table-info">
+                                `;  
+                                output+=`<tr>
+                                      <td width="30%">Product Name</td>
+                                      <td width="70%">${productName}</td>
+                                    </tr>
+                                    <tr>
+                                      <td width="30%">Quantity</td>
+                                      <td width="70%">${quantity}</td>
+                                    </tr>
+                                    <tr>
+                                      <td width="30%">Total</td>
+                                      <td width="70%">Rs. ${total}</td>
+                                    </tr>
+                                    <tr>
+                                      <td width="30%">Taxes</td>
+                                      <td width="70%">${tax}%</td>
+                                    </tr>
+                                    <tr>
+                                      <td width="30%">Grand Total</td>
+                                      <td width="70%">Rs. ${grandTotal}</td>
+                                    </tr>`
+                                    output+=`</table></div>`;
+                            $(".modal-body").html(output);
+                        }
+                    }
+                }) 
+                $("#myModal").modal("show");
+            }
+        }
+    })
+  </script>
+</html>
